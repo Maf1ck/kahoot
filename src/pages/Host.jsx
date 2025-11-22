@@ -32,6 +32,10 @@ function Host({ socket }) {
             navigate('/');
         });
 
+        socket.on('error', (msg) => {
+            alert('Error: ' + msg);
+        });
+
         return () => {
             socket.off('game_created');
             socket.off('player_joined');
