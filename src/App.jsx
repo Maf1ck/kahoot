@@ -7,7 +7,7 @@ import Player from './pages/Player';
 import './index.css';
 
 // Initialize socket outside component to prevent multiple connections
-const socket = io('http://localhost:3000');
+const socket = io('https://kahoot-g676.vercel.app/');
 
 function App() {
   const [isConnected, setIsConnected] = useState(socket.connected);
