@@ -9,7 +9,7 @@ function Lobby({ pin, players, socket, hostSecret }) {
         <div className="full-screen flex-col flex-center" style={{ background: 'var(--primary)', color: 'white' }}>
             <div style={{ background: 'rgba(0,0,0,0.2)', padding: '2rem', borderRadius: 'var(--radius-lg)', textAlign: 'center', marginBottom: '2rem' }}>
                 <h2>Join with PIN:</h2>
-                <h1 style={{ fontSize: '5rem', margin: 0 }}>{pin}</h1>
+                <h1 style={{ fontSize: '5rem', margin: 0 }}>{typeof pin === 'object' ? pin.pin : pin}</h1>
             </div>
 
             <div className="container" style={{ width: '100%' }}>

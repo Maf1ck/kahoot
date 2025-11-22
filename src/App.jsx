@@ -7,7 +7,7 @@ import Player from './pages/Player';
 import './index.css';
 
 // Initialize socket outside component to prevent multiple connections
-const socket = io('https://kahoot-g676.vercel.app/', {
+const socket = io('https://kahoot-beck.onrender.com', {
   transports: ['websocket'],
   withCredentials: true
 });
