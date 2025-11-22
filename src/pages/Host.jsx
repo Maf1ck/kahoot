@@ -10,6 +10,7 @@ function Host({ socket }) {
     const [gamePin, setGamePin] = useState(null);
     const [players, setPlayers] = useState([]);
     const [hostSecret, setHostSecret] = useState(null);
+    const [question, setQuestion] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,6 +30,10 @@ function Host({ socket }) {
             navigate('/host/game');
         });
 
+        socket.on('new_question_host', (q) => {
+            setQuestion(q);
+        });
+
         socket.on('host_disconnected', () => {
             alert('Host disconnected');
             navigate('/');
@@ -42,6 +47,7 @@ function Host({ socket }) {
             socket.off('game_created');
             socket.off('player_joined');
             socket.off('game_started');
+            socket.off('new_question_host');
             socket.off('host_disconnected');
         };
     }, [socket, navigate]);
@@ -51,7 +57,7 @@ function Host({ socket }) {
             <Routes>
                 <Route path="/" element={<CreateGame socket={socket} />} />
                 <Route path="/lobby" element={<Lobby pin={gamePin} players={players} socket={socket} hostSecret={hostSecret} />} />
-                <Route path="/game" element={<GameRunner socket={socket} pin={gamePin} hostSecret={hostSecret} />} />
+                <Route path="/game" element={<GameRunner socket={socket} pin={gamePin} hostSecret={hostSecret} question={question} />} />
             </Routes>
         </div>
     );

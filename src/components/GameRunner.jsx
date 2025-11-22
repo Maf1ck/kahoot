@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
 
-function GameRunner({ socket, pin, hostSecret }) {
-    const [question, setQuestion] = useState(null);
+function GameRunner({ socket, pin, hostSecret, question }) {
     const [results, setResults] = useState(null); // { correctAnswer, leaderboard }
     const [answeredCount, setAnsweredCount] = useState(0);
     const [timer, setTimer] = useState(0);
     const [isShowingResults, setIsShowingResults] = useState(false);
 
     useEffect(() => {
-        socket.on('new_question_host', (q) => {
-            setQuestion(q);
+        if (question) {
             setResults(null);
             setAnsweredCount(0);
-            setTimer(q.timeLimit || 20);
+            setTimer(question.timeLimit || 20);
             setIsShowingResults(false);
-        });
+        }
+    }, [question]);
 
+    useEffect(() => {
         socket.on('player_answered', ({ count }) => {
             setAnsweredCount(count);
         });
@@ -32,7 +32,6 @@ function GameRunner({ socket, pin, hostSecret }) {
         });
 
         return () => {
-            socket.off('new_question_host');
             socket.off('player_answered');
             socket.off('question_results');
             socket.off('game_over');
