@@ -1,8 +1,8 @@
 import React from 'react';
 
-function Lobby({ pin, players, socket }) {
+function Lobby({ pin, players, socket, hostSecret }) {
     const startGame = () => {
-        socket.emit('start_game', pin);
+        socket.emit('start_game', { pin, hostSecret });
     };
 
     return (

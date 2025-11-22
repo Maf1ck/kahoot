@@ -9,13 +9,15 @@ import GameRunner from '../components/GameRunner';
 function Host({ socket }) {
     const [gamePin, setGamePin] = useState(null);
     const [players, setPlayers] = useState([]);
+    const [hostSecret, setHostSecret] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
         if (!socket) return;
 
-        socket.on('game_created', (pin) => {
+        socket.on('game_created', ({ pin, hostSecret }) => {
             setGamePin(pin);
+            setHostSecret(hostSecret);
             navigate('/host/lobby');
         });
 
@@ -48,8 +50,8 @@ function Host({ socket }) {
         <div className="host-container full-screen" style={{ background: '#f2f2f2' }}>
             <Routes>
                 <Route path="/" element={<CreateGame socket={socket} />} />
-                <Route path="/lobby" element={<Lobby pin={gamePin} players={players} socket={socket} />} />
-                <Route path="/game" element={<GameRunner socket={socket} pin={gamePin} />} />
+                <Route path="/lobby" element={<Lobby pin={gamePin} players={players} socket={socket} hostSecret={hostSecret} />} />
+                <Route path="/game" element={<GameRunner socket={socket} pin={gamePin} hostSecret={hostSecret} />} />
             </Routes>
         </div>
     );
